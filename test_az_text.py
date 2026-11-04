@@ -38,3 +38,18 @@ def test_amount_to_words():
     assert amount_to_words(2500000) == "iki milyon beş yüz min"
     assert amount_to_words(1000000000) == "bir milyard"
     assert amount_to_words(3400000000) == "üç milyard dörd yüz milyon"
+
+def test_amount_to_words_rejects_negative():
+    with pytest.raises(ValueError):
+        amount_to_words(-5)
+
+@pytest.mark.parametrize("value", [1.5, "10", None, True])
+def test_amount_to_words_rejects_non_integers(value):
+    with pytest.raises(TypeError):
+        amount_to_words(value)
+
+def test_amount_to_words_thousand_boundaries():
+    assert amount_to_words(1000) == "min"
+    assert amount_to_words(2000) == "iki min"
+    assert amount_to_words(1001000) == "bir milyon min"
+    assert amount_to_words(999999) == "doqquz yüz doxsan doqquz min doqquz yüz doxsan doqquz"

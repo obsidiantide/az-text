@@ -57,7 +57,11 @@ def slugify(text: str) -> str:
     return text
 
 def amount_to_words(amount: int) -> str:
-    """Converts numerical amounts to written Azerbaijani words."""
+    """Converts non-negative integer amounts to written Azerbaijani words."""
+    if isinstance(amount, bool) or not isinstance(amount, int):
+        raise TypeError("amount must be an integer")
+    if amount < 0:
+        raise ValueError("amount must be non-negative")
     if amount == 0:
         return "sıfır"
         
