@@ -53,3 +53,23 @@ def test_amount_to_words_thousand_boundaries():
     assert amount_to_words(2000) == "iki min"
     assert amount_to_words(1001000) == "bir milyon min"
     assert amount_to_words(999999) == "doqquz yüz doxsan doqquz min doqquz yüz doxsan doqquz"
+
+def test_transliteration_keeps_unmapped_characters():
+    assert cyrillic_to_latin("123 - Salam!") == "123 - Salam!"
+    assert latin_to_cyrillic("") == ""
+
+def test_cyrillic_digraphs():
+    assert cyrillic_to_latin("Юсиф") == "Yusif"
+    assert cyrillic_to_latin("Яшар") == "Yaşar"
+    assert cyrillic_to_latin("ЦЕНТР".title()) == "Tsentr"
+
+def test_upper_lower_dotted_and_dotless_i():
+    assert upper("iı") == "İI"
+    assert lower("İI") == "iı"
+    assert lower(upper("Işıq")) == "ışıq"
+
+def test_slugify_edge_cases():
+    assert slugify("") == ""
+    assert slugify("  --İstanbul--  IŞIQ  ") == "istanbul-isiq"
+    assert slugify("Çay & Şəkər, 2024!") == "cay-seker-2024"
+    assert slugify("!!!") == ""
