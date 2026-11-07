@@ -114,3 +114,27 @@ def amount_to_words(amount: int) -> str:
         result.append(convert_less_than_1000(remainder))
         
     return " ".join(result).strip()
+
+
+_ORDINAL_SUFFIXES = {
+    "a": "ıncı", "ı": "ıncı",
+    "e": "inci", "ə": "inci", "i": "inci",
+    "o": "uncu", "u": "uncu",
+    "ö": "üncü", "ü": "üncü",
+}
+_VOWELS = "aıoueəiöü"
+
+
+def ordinal_to_words(number: int) -> str:
+    """Converts a positive integer to a written Azerbaijani ordinal ("iyirmi beşinci")."""
+    if isinstance(number, bool) or not isinstance(number, int):
+        raise TypeError("number must be an integer")
+    if number < 1:
+        raise ValueError("number must be positive")
+
+    words = amount_to_words(number)
+    last_vowel = next(ch for ch in reversed(words) if ch in _VOWELS)
+    suffix = _ORDINAL_SUFFIXES[last_vowel]
+    if words[-1] in _VOWELS:
+        suffix = suffix[1:]  # drop the leading vowel after a vowel-final stem
+    return words + suffix

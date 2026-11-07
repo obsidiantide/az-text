@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Core Features
-- [ ] Ordinal numbers ("birinci", "iyirmi beşinci")
+- [x] Ordinal numbers ("birinci", "iyirmi beşinci") via `ordinal_to_words`
 - [ ] Currency formatting in words with qəpik ("iki manat əlli qəpik")
 - [ ] Latin-to-Cyrillic digraph support (`ts`, `yu`, `ya`)
 - [ ] Alphabet-aware `sort_key` for collation

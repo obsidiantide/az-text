@@ -18,7 +18,7 @@ pip install az-text
 ## Usage
 
 \`\`\`python
-from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words
+from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words
 
 # Transliteration
 cyrillic_to_latin("Салам, Нәҹәсән?")  # Salam, Nəcəsən?
@@ -33,4 +33,5 @@ slugify("Mənim Gözəl Şəhərim!")  # menim-gozel-seherim
 
 # Numbers to Words
 amount_to_words(1999)  # min doqquz yüz doxsan doqquz
+ordinal_to_words(25)  # iyirmi beşinci
 \`\`\`

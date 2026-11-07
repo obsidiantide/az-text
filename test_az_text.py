@@ -1,5 +1,5 @@
 import pytest
-from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words
+from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words
 
 def test_cyrillic_to_latin():
     assert cyrillic_to_latin("Салам, Нәҹәсән?") == "Salam, Nəcəsən?"
@@ -81,3 +81,32 @@ def test_amount_to_words_trillions_and_upper_bound():
     assert amount_to_words(10**15 - 1).startswith("doqquz yüz doxsan doqquz trilyon")
     with pytest.raises(ValueError):
         amount_to_words(10**15)
+
+
+@pytest.mark.parametrize("number, expected", [
+    (1, "birinci"),
+    (2, "ikinci"),
+    (3, "üçüncü"),
+    (4, "dördüncü"),
+    (5, "beşinci"),
+    (6, "altıncı"),
+    (9, "doqquzuncu"),
+    (10, "onuncu"),
+    (20, "iyirminci"),
+    (25, "iyirmi beşinci"),
+    (50, "əllinci"),
+    (100, "yüzüncü"),
+    (1000, "mininci"),
+    (1000000, "bir milyonuncu"),
+])
+def test_ordinal_to_words(number, expected):
+    assert ordinal_to_words(number) == expected
+
+
+def test_ordinal_to_words_rejects_invalid_input():
+    with pytest.raises(ValueError):
+        ordinal_to_words(0)
+    with pytest.raises(ValueError):
+        ordinal_to_words(-3)
+    with pytest.raises(TypeError):
+        ordinal_to_words("3")
