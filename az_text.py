@@ -83,9 +83,17 @@ def amount_to_words(amount: int) -> str:
             words.append(ones[o])
         return " ".join(words)
 
+    if amount >= 10**15:
+        raise ValueError("amount must be less than 10**15")
+
     result = []
-    
-    billions = amount // 1000000000
+
+    trillions = amount // 10**12
+    if trillions > 0:
+        result.append(convert_less_than_1000(trillions))
+        result.append("trilyon")
+
+    billions = (amount % 10**12) // 1000000000
     if billions > 0:
         result.append(convert_less_than_1000(billions))
         result.append("milyard")

@@ -73,3 +73,11 @@ def test_slugify_edge_cases():
     assert slugify("  --İstanbul--  IŞIQ  ") == "istanbul-isiq"
     assert slugify("Çay & Şəkər, 2024!") == "cay-seker-2024"
     assert slugify("!!!") == ""
+
+
+def test_amount_to_words_trillions_and_upper_bound():
+    assert amount_to_words(10**12) == "bir trilyon"
+    assert amount_to_words(2 * 10**12 + 5) == "iki trilyon beş"
+    assert amount_to_words(10**15 - 1).startswith("doqquz yüz doxsan doqquz trilyon")
+    with pytest.raises(ValueError):
+        amount_to_words(10**15)
