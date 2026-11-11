@@ -16,4 +16,4 @@
 
 ## Performance & Polish
 - [x] Use `str.translate` tables instead of per-character dict lookups
-- [ ] GitHub Actions workflow running pytest
+- [x] GitHub Actions workflow running pytest
