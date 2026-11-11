@@ -15,5 +15,5 @@
 - [ ] Type hints and a mypy check in CI
 
 ## Performance & Polish
-- [ ] Use `str.translate` tables instead of per-character dict lookups
+- [x] Use `str.translate` tables instead of per-character dict lookups
 - [ ] GitHub Actions workflow running pytest

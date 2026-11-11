@@ -24,13 +24,16 @@ LATIN_TO_CYRILLIC = {
     'ü': 'ү', 'f': 'ф', 'x': 'х', 'h': 'һ', 'ç': 'ч', 'c': 'ҹ', 'ş': 'ш', 'ı': 'ы'
 }
 
+_CYRILLIC_TO_LATIN_TABLE = str.maketrans(CYRILLIC_TO_LATIN)
+_LATIN_TO_CYRILLIC_TABLE = str.maketrans(LATIN_TO_CYRILLIC)
+
 def cyrillic_to_latin(text: str) -> str:
     """Transliterator for Azerbaijani Cyrillic to Latin."""
-    return ''.join(CYRILLIC_TO_LATIN.get(char, char) for char in text)
+    return text.translate(_CYRILLIC_TO_LATIN_TABLE)
 
 def latin_to_cyrillic(text: str) -> str:
     """Transliterator for Azerbaijani Latin to Cyrillic."""
-    return ''.join(LATIN_TO_CYRILLIC.get(char, char) for char in text)
+    return text.translate(_LATIN_TO_CYRILLIC_TABLE)
 
 def upper(text: str) -> str:
     """Linguistically accurate uppercase for Azerbaijani."""
@@ -42,15 +45,14 @@ def lower(text: str) -> str:
     text = text.replace('İ', 'i').replace('I', 'ı')
     return text.lower()
 
+_SLUG_TABLE = str.maketrans({
+    'ə': 'e', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ü': 'u', 'ç': 'c', 'ş': 's',
+    'Ə': 'e', 'Ğ': 'g', 'İ': 'i', 'I': 'i', 'Ö': 'o', 'Ü': 'u', 'Ç': 'c', 'Ş': 's'
+})
+
 def slugify(text: str) -> str:
     """SEO-friendly slugify that correctly handles Azerbaijani characters."""
-    replacements = {
-        'ə': 'e', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ü': 'u', 'ç': 'c', 'ş': 's',
-        'Ə': 'e', 'Ğ': 'g', 'İ': 'i', 'I': 'i', 'Ö': 'o', 'Ü': 'u', 'Ç': 'c', 'Ş': 's'
-    }
-    text = lower(text)
-    for char, rep in replacements.items():
-        text = text.replace(char, rep)
+    text = lower(text).translate(_SLUG_TABLE)
     # Remove all non-word characters and replace spaces with hyphens
     text = re.sub(r'[^a-z0-9\s-]', '', text)
     text = re.sub(r'[\s-]+', '-', text).strip('-')
