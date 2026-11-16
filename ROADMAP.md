@@ -2,7 +2,7 @@
 
 ## Core Features
 - [x] Ordinal numbers ("birinci", "iyirmi beşinci") via `ordinal_to_words`
-- [ ] Currency formatting in words with qəpik ("iki manat əlli qəpik")
+- [x] Currency formatting in words with qəpik via `currency_to_words`
 - [ ] Latin-to-Cyrillic digraph support (`ts`, `yu`, `ya`)
 - [ ] Alphabet-aware `sort_key` for collation
 

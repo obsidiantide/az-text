@@ -140,3 +140,33 @@ def ordinal_to_words(number: int) -> str:
     if words[-1] in _VOWELS:
         suffix = suffix[1:]  # drop the leading vowel after a vowel-final stem
     return words + suffix
+
+
+def currency_to_words(amount) -> str:
+    """Writes a manat amount in words with qəpik ("iki manat əlli qəpik").
+
+    Accepts an int (whole manats), or a float/str/Decimal with up to two decimals.
+    """
+    from decimal import Decimal, InvalidOperation
+
+    if isinstance(amount, bool) or not isinstance(amount, (int, float, str, Decimal)):
+        raise TypeError("amount must be a number")
+    try:
+        value = Decimal(str(amount))
+    except InvalidOperation:
+        raise ValueError("amount is not a valid number") from None
+    if not value.is_finite():
+        raise ValueError("amount must be finite")
+    if value < 0:
+        raise ValueError("amount must be non-negative")
+    if value != value.quantize(Decimal("0.01")):
+        raise ValueError("amount must have at most two decimal places")
+
+    total_qepik = int(value * 100)
+    manat, qepik = divmod(total_qepik, 100)
+    parts = []
+    if manat or not qepik:
+        parts.append(amount_to_words(manat) + " manat")
+    if qepik:
+        parts.append(amount_to_words(qepik) + " qəpik")
+    return " ".join(parts)

@@ -1,5 +1,5 @@
 import pytest
-from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words
+from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words, currency_to_words
 
 def test_cyrillic_to_latin():
     assert cyrillic_to_latin("Салам, Нәҹәсән?") == "Salam, Nəcəsən?"
@@ -110,3 +110,32 @@ def test_ordinal_to_words_rejects_invalid_input():
         ordinal_to_words(-3)
     with pytest.raises(TypeError):
         ordinal_to_words("3")
+
+
+@pytest.mark.parametrize("amount, expected", [
+    (0, "sıfır manat"),
+    (1, "bir manat"),
+    (2.5, "iki manat əlli qəpik"),
+    ("12.05", "on iki manat beş qəpik"),
+    ("0.99", "doxsan doqquz qəpik"),
+    (0.07, "yeddi qəpik"),
+    (1000, "min manat"),
+    ("1000.01", "min manat bir qəpik"),
+])
+def test_currency_to_words(amount, expected):
+    assert currency_to_words(amount) == expected
+
+
+def test_currency_to_words_rejects_invalid_input():
+    with pytest.raises(ValueError):
+        currency_to_words(-1)
+    with pytest.raises(ValueError):
+        currency_to_words("1.234")
+    with pytest.raises(ValueError):
+        currency_to_words("abc")
+    with pytest.raises(ValueError):
+        currency_to_words(float("nan"))
+    with pytest.raises(TypeError):
+        currency_to_words(None)
+    with pytest.raises(TypeError):
+        currency_to_words(True)
