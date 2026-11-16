@@ -1,4 +1,6 @@
 import re
+from decimal import Decimal, InvalidOperation
+from typing import Union
 
 CYRILLIC_TO_LATIN = {
     'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'Q', 'Ғ': 'Ğ', 'Д': 'D', 'Е': 'E', 'Ә': 'Ə',
@@ -142,13 +144,11 @@ def ordinal_to_words(number: int) -> str:
     return words + suffix
 
 
-def currency_to_words(amount) -> str:
+def currency_to_words(amount: Union[int, float, str, Decimal]) -> str:
     """Writes a manat amount in words with qəpik ("iki manat əlli qəpik").
 
     Accepts an int (whole manats), or a float/str/Decimal with up to two decimals.
     """
-    from decimal import Decimal, InvalidOperation
-
     if isinstance(amount, bool) or not isinstance(amount, (int, float, str, Decimal)):
         raise TypeError("amount must be a number")
     try:
