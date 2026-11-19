@@ -16,5 +16,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install pytest
+      - run: python -m pip install pytest mypy
       - run: python -m pytest -q
+      - run: python -m mypy --strict az_text.py

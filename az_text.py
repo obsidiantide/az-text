@@ -72,7 +72,7 @@ def amount_to_words(amount: int) -> str:
     ones = ["", "bir", "iki", "üç", "dörd", "beş", "altı", "yeddi", "səkkiz", "doqquz"]
     tens = ["", "on", "iyirmi", "otuz", "qırx", "əlli", "altmış", "yetmiş", "səksən", "doxsan"]
     
-    def convert_less_than_1000(n):
+    def convert_less_than_1000(n: int) -> str:
         words = []
         h = n // 100
         if h > 0:

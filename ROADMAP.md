@@ -12,7 +12,7 @@
 
 ## Architecture & Refactoring
 - [ ] Package layout (`az_text/` with submodules) and `pyproject.toml`
-- [ ] Type hints and a mypy check in CI
+- [x] Type hints and a mypy check in CI
 
 ## Performance & Polish
 - [x] Use `str.translate` tables instead of per-character dict lookups
