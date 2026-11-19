@@ -18,7 +18,7 @@ pip install az-text
 ## Usage
 
 \`\`\`python
-from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words, currency_to_words
+from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words, currency_to_words, sort_key
 
 # Transliteration
 cyrillic_to_latin("Салам, Нәҹәсән?")  # Salam, Nəcəsən?
@@ -35,4 +35,7 @@ slugify("Mənim Gözəl Şəhərim!")  # menim-gozel-seherim
 amount_to_words(1999)  # min doqquz yüz doxsan doqquz
 ordinal_to_words(25)  # iyirmi beşinci
 currency_to_words("2.50")  # iki manat əlli qəpik
+
+# Alphabet-aware sorting
+sorted(["zebra", "çay", "cay", "şəhər"], key=sort_key)  # ['cay', 'çay', 'şəhər', 'zebra']
 \`\`\`

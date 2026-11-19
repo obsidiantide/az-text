@@ -1,6 +1,6 @@
 import re
 from decimal import Decimal, InvalidOperation
-from typing import Union
+from typing import Tuple, Union
 
 CYRILLIC_TO_LATIN = {
     'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'Q', 'Ғ': 'Ğ', 'Д': 'D', 'Е': 'E', 'Ә': 'Ə',
@@ -170,3 +170,23 @@ def currency_to_words(amount: Union[int, float, str, Decimal]) -> str:
     if qepik:
         parts.append(amount_to_words(qepik) + " qəpik")
     return " ".join(parts)
+
+
+_ALPHABET = "abcçdeəfgğhxıijkqlmnoöprsştuüvyz"
+_ALPHABET_INDEX = {ch: i for i, ch in enumerate(_ALPHABET)}
+
+
+def sort_key(text: str) -> Tuple[Tuple[int, int], ...]:
+    """Collation key following the Azerbaijani Latin alphabet order.
+
+    Case-insensitive. Characters outside the alphabet (digits, punctuation,
+    spaces) sort before letters, ordered by code point.
+
+    >>> sorted(["zebra", "çay", "cay", "şəhər", "sular"], key=sort_key)
+    ['cay', 'çay', 'sular', 'şəhər', 'zebra']
+    """
+    key = []
+    for ch in lower(text):
+        idx = _ALPHABET_INDEX.get(ch)
+        key.append((1, idx) if idx is not None else (0, ord(ch)))
+    return tuple(key)

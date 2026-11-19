@@ -1,5 +1,5 @@
 import pytest
-from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words, currency_to_words
+from az_text import cyrillic_to_latin, latin_to_cyrillic, upper, lower, slugify, amount_to_words, ordinal_to_words, currency_to_words, sort_key
 
 def test_cyrillic_to_latin():
     assert cyrillic_to_latin("Салам, Нәҹәсән?") == "Salam, Nəcəsən?"
@@ -139,3 +139,20 @@ def test_currency_to_words_rejects_invalid_input():
         currency_to_words(None)
     with pytest.raises(TypeError):
         currency_to_words(True)
+
+
+def test_sort_key_follows_azerbaijani_alphabet():
+    words = ["zebra", "şəhər", "sular", "çay", "cay", "ğ", "g", "h", "x", "ı", "i", "ə", "e", "f", "o", "ö", "p"]
+    assert sorted(words, key=sort_key) == [
+        "cay", "çay", "e", "ə", "f", "g", "ğ", "h", "x", "ı", "i", "o", "ö", "p", "sular", "şəhər", "zebra",
+    ]
+
+
+def test_sort_key_is_case_insensitive_and_handles_dotted_i():
+    assert sort_key("Iş") == sort_key("ış")
+    assert sort_key("İş") == sort_key("iş")
+    assert sorted(["İz", "Ilıq", "Ağac"], key=sort_key) == ["Ağac", "Ilıq", "İz"]
+
+
+def test_sort_key_puts_non_letters_first_and_prefix_before_longer():
+    assert sorted(["a b", "ab", "a1", "a"], key=sort_key) == ["a", "a b", "a1", "ab"]

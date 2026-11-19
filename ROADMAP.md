@@ -4,7 +4,7 @@
 - [x] Ordinal numbers ("birinci", "iyirmi beşinci") via `ordinal_to_words`
 - [x] Currency formatting in words with qəpik via `currency_to_words`
 - [ ] Latin-to-Cyrillic digraph support (`ts`, `yu`, `ya`)
-- [ ] Alphabet-aware `sort_key` for collation
+- [x] Alphabet-aware `sort_key` for collation
 
 ## Test Coverage
 - [x] Edge cases for transliteration, case conversion, slugify and `amount_to_words`
